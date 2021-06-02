@@ -1,42 +1,79 @@
 import javax.swing.*;
 
 import Classes.LoginIdentity;
+import Enums.Operations;
+import Classes.AuthorityMatrix;
 import Classes.HomeworkManagerSession;
 import Pages.*;
 
-public class HomeworkManagerUI implements PageListener
-{
+public class HomeworkManagerUI implements PageListener {
     private JFrame frame = new JFrame();
     JButton loginButton = new JButton("Login");
-    public HomeworkManagerUI()
-    {
+    private HomeworkManagerSession _session;
+
+    public HomeworkManagerUI() {
         LoginPage loginPage = new LoginPage(frame);
-        loginPage.addLoginListener(this);
+        loginPage.addPageListener(this);
     }
+
+    ManagementPage managementPage;
 
     @Override
     public void pageEvent(PageTypes pageType, Object object) {
-        if(pageType == PageTypes.LoginPage)
-        {
-            if(object != null)
-            {
-                LoginIdentity identity = (LoginIdentity)object;
-                try{
-                    var session = HomeworkManagerSession.CreateSession(identity);
-                    if(session != null)
-                    {
-                        var managementPage = new ManagementPage(session,HomeworkManagerSession.Homework, frame);
+        if (pageType == PageTypes.LoginPage) {
+            if (object != null) {
+                LoginIdentity identity = (LoginIdentity) object;
+                try {
+                    _session = HomeworkManagerSession.CreateSession(identity);
+                    if (_session != null) {
+                        managementPage = new ManagementPage(_session, HomeworkManagerSession.Homework, frame);
+                        managementPage.addPageListener(this);
                     }
-                }
-                catch(Exception exception)
-                {
+                } catch (Exception exception) {
 
                 }
             }
-        }
-        else if(pageType == PageTypes.ManagementPage)
-        {
+        } else if (pageType == PageTypes.ManagementPage) {
+            if (object != null) {
+                Operations op = (Operations) object;
+                if (AuthorityMatrix.IsOperationLegal(_session.getUser().getRole(), op)) {
+                    if (op == Operations.CommentHomwork) {
+                        CommentPage page = new CommentPage(new JFrame(), _session.Homework);
+                        page.addPageListener(this);
+                    } else if (op == Operations.SubmitHomework) {
+                        SubmitPage page = new SubmitPage(new JFrame());
+                        page.addPageListener(this);
+                    } else if (op == Operations.ScoreHomework) {
+                        ScorePage page = new ScorePage(new JFrame());
+                        page.addPageListener(this);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "不允许", "错误", 0);
+                }
 
+            }
+        } else if (pageType == PageTypes.CommentPage) {
+            try {
+                _session.CommentHomework(HomeworkManagerSession.Homework, (String) object);
+                managementPage.UpdateInfo();
+            } catch (Exception exception) {
+                JOptionPane.showMessageDialog(null, exception.getMessage(), "错误", 0);
+            }
+        } else if (pageType == PageTypes.ScorePage) {
+            try {
+                _session.CommentHomework(HomeworkManagerSession.Homework, (String) object);
+                managementPage.UpdateInfo();
+            } catch (Exception exception) {
+                JOptionPane.showMessageDialog(null, exception.getMessage(), "错误", 0);
+            }
+        } else if(pageType == PageTypes.SubmitPage)
+        {
+            try {
+                _session.SubmitHomework(HomeworkManagerSession.Homework, (String) object);
+                managementPage.UpdateInfo();
+            } catch (Exception exception) {
+                JOptionPane.showMessageDialog(null, exception.getMessage(), "错误", 0);
+            }
         }
     }
 }

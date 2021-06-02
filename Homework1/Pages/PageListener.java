@@ -1,7 +1,6 @@
 package Pages;
 import java.util.EventListener;
 
-import Classes.LoginIdentity;
 
 public interface PageListener extends EventListener
 {

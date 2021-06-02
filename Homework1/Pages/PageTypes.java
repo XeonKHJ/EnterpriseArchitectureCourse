@@ -2,5 +2,8 @@ package Pages;
 
 public enum PageTypes {
     LoginPage,
-    ManagementPage
+    ManagementPage,
+    CommentPage,
+    ScorePage,
+    SubmitPage
 }

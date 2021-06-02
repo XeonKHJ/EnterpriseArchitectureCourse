@@ -3,6 +3,8 @@ package Classes;
 import java.util.ArrayList;
 import java.util.List;
 
+import Enums.Operations;
+
 public class HomeworkManagerSession {
     public static List<User> Users = new ArrayList<User>();
     public static Homework Homework;
@@ -36,19 +38,28 @@ public class HomeworkManagerSession {
         return _user;
     }
 
-    public void AddUsers(User user) {
-        
+
+    public void SubmitHomework(Homework homework, String content) throws Exception
+    {
+        if(AuthorityMatrix.IsOperationLegal(_user.getRole(), Operations.SubmitHomework))
+        {
+            homework.setContent(content);
+        }
+        else
+        {
+            throw new Exception("不允许");
+        }
     }
 
-    public void DeleteUsers(User user) {
-
-    }
-
-    public void EditProfile(User user) {
-
-    }
-
-    public void ChooseCourse() {
-
+    public void CommentHomework(Homework homework, String comment) throws Exception
+    {
+        if(AuthorityMatrix.IsOperationLegal(_user.getRole(), Operations.CommentHomwork))
+        {
+            homework.setComment(comment);
+        }
+        else
+        {
+            throw new Exception("不允许");
+        }
     }
 }

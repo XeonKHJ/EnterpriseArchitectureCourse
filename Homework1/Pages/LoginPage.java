@@ -9,9 +9,8 @@ import java.awt.event.*;
 import java.util.Collection;
 import java.util.HashSet;
 
-public class LoginPage implements ActionListener 
+public class LoginPage extends Page implements ActionListener 
 {
-    private Collection<PageListener> _listeners = new HashSet<PageListener>();
     private int clicks = 0;
     private JLabel label = new JLabel("Number of clicks:  0     ");
     private JTextArea userNameTextArea = new JTextArea();
@@ -62,23 +61,8 @@ public class LoginPage implements ActionListener
         }
     }
 
-    public void addLoginListener(PageListener listener)
-    {
-        _listeners.add(listener);
-    }
-
-    public void removeLoginListener(PageListener listener)
-    {
-        _listeners.remove(listener);
-    }
-
     protected void logining(LoginIdentity loginIdentity)
     {
-        for (PageListener listener : _listeners) {
-            if(listener != null)
-            {
-                listener.pageEvent(PageTypes.LoginPage, loginIdentity);
-            }
-        }
+        InvokePageEvent(PageTypes.LoginPage, loginIdentity);
     }
 }
