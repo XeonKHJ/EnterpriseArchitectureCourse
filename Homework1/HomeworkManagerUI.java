@@ -1,26 +1,19 @@
 import javax.swing.*;
 
 import Classes.LoginIdentity;
-import Classes.StudentManagerSession;
+import Classes.HomeworkManagerSession;
 import Pages.*;
-import java.awt.*;
-import java.awt.event.*;
 
-public class StudentManagerUI implements ActionListener, PageListener
+public class HomeworkManagerUI implements PageListener
 {
-    private int clicks = 0;
-    private JLabel label = new JLabel("Number of clicks:  0     ");
     private JFrame frame = new JFrame();
-    private JTextArea userNameTextArea = new JTextArea();
-    private JPasswordField passwordArea = new JPasswordField();
-    private StudentManagerSession session;
     JButton loginButton = new JButton("Login");
-    public StudentManagerUI()
+    public HomeworkManagerUI()
     {
         LoginPage loginPage = new LoginPage(frame);
         loginPage.addLoginListener(this);
     }
-    
+
     @Override
     public void pageEvent(PageTypes pageType, Object object) {
         if(pageType == PageTypes.LoginPage)
@@ -29,10 +22,10 @@ public class StudentManagerUI implements ActionListener, PageListener
             {
                 LoginIdentity identity = (LoginIdentity)object;
                 try{
-                    var session = StudentManagerSession.CreateSession(identity);
+                    var session = HomeworkManagerSession.CreateSession(identity);
                     if(session != null)
                     {
-                        var managementPage = new ManagementPage(session, new JFrame());
+                        var managementPage = new ManagementPage(session,HomeworkManagerSession.Homework, frame);
                     }
                 }
                 catch(Exception exception)

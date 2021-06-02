@@ -19,6 +19,7 @@ public class LoginPage implements ActionListener
     JButton loginButton = new JButton("Login");
     public LoginPage(JFrame frame)
     {
+        frame.getContentPane().removeAll();
         JButton button = new JButton("Click Me");
         button.addActionListener(this);
         loginButton.addActionListener(this);
