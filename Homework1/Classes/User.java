@@ -1,3 +1,6 @@
+package Classes;
+import Enums.Roles;
+
 public class User {
     private int _id;
     private Roles _role;
