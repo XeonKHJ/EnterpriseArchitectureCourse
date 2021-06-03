@@ -3,20 +3,20 @@ package Classes;
 public class HomeworkResult {
     private User _user;
     private Homework _homework;
-    private String _comment = "";
+    private String _comment = "无点评";
     private int _score = 0;
-    private String _content = "";
+    private String _content = "暂未提交";
     public HomeworkResult(User user, Homework homework)
     {
         _user = user;
-        homework = _homework;
+        _homework = homework;
     }
 
     public void setContent(String content)
     {
         if(content == null)
         {
-            content = "";
+            content = "暂未提交";
         }
         _content = content;
     }
@@ -30,7 +30,7 @@ public class HomeworkResult {
     {
         if(comment == null)
         {
-            comment = "";
+            comment = "无点评";
         }
         _comment = comment;
     }

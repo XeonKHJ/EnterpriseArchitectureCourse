@@ -1,9 +1,12 @@
 import javax.swing.*;
 
 import Classes.LoginIdentity;
+import Classes.User;
+import Classes.UserListPageEventArgs;
 import Enums.Operations;
 import Enums.Roles;
 import Classes.AuthorityMatrix;
+import Classes.CommentPageEventArg;
 import Classes.HomeworkManagerSession;
 import Pages.*;
 
@@ -18,26 +21,30 @@ public class HomeworkManagerUI implements PageListener {
     }
 
     ManagementPage managementPage;
+    UserListPage userListPage;
+    User loginedUser;
 
     @Override
     public void pageEvent(PageTypes pageType, Object object) {
+        frame = new JFrame();
         if (pageType == PageTypes.LoginPage) {
             if (object != null) {
                 LoginIdentity identity = (LoginIdentity) object;
                 try {
-                    _session = HomeworkManagerSession.CreateSession(identity);
-                    if (_session != null) {
-                        if(_session.getUser().getRole() == Roles.Admin)
-                        {
-                            UserListPage userListPage = new UserListPage(frame);
-                        }
-                        else{
-                            managementPage = new ManagementPage(_session, frame);
-                            managementPage.addPageListener(this);
-                        }
-
+                    loginedUser = HomeworkManagerSession.Authorize(identity);
+                    // _session = HomeworkManagerSession.CreateSession(loginedUser,
+                    // HomeworkManagerSession.Homework);
+                    if (loginedUser.getRole() == Roles.Admin) {
+                        userListPage = new UserListPage(frame, loginedUser);
+                        userListPage.addPageListener(this);
+                    } else if (loginedUser.getRole() == Roles.Teacher) {
+                        userListPage = new UserListPage(frame, loginedUser);
+                        userListPage.addPageListener(this);
+                    } else {
+                        _session = HomeworkManagerSession.CreateSession(loginedUser, HomeworkManagerSession.Homework);
+                        managementPage = new ManagementPage(_session, frame);
+                        managementPage.addPageListener(this);
                     }
-
 
                 } catch (Exception exception) {
 
@@ -54,7 +61,7 @@ public class HomeworkManagerUI implements PageListener {
                         SubmitPage page = new SubmitPage(new JFrame());
                         page.addPageListener(this);
                     } else if (op == Operations.ScoreHomework) {
-                        ScorePage page = new ScorePage(new JFrame());
+                        ScorePage page = new ScorePage(new JFrame(), _session);
                         page.addPageListener(this);
                     }
                 } else {
@@ -64,25 +71,42 @@ public class HomeworkManagerUI implements PageListener {
             }
         } else if (pageType == PageTypes.CommentPage) {
             try {
-                _session.CommentHomework(HomeworkManagerSession.Homework, (String) object);
+                var arg = (CommentPageEventArg)object;
+                _session.CommentHomework(arg.getComment());
+                _session.ScoreHomework(arg.getScore());
                 managementPage.UpdateInfo();
             } catch (Exception exception) {
                 JOptionPane.showMessageDialog(null, exception.getMessage(), "错误", 0);
             }
         } else if (pageType == PageTypes.ScorePage) {
             try {
-                _session.CommentHomework(HomeworkManagerSession.Homework, (String) object);
+                _session.CommentHomework((String) object);
                 managementPage.UpdateInfo();
             } catch (Exception exception) {
                 JOptionPane.showMessageDialog(null, exception.getMessage(), "错误", 0);
             }
-        } else if(pageType == PageTypes.SubmitPage)
-        {
+        } else if (pageType == PageTypes.SubmitPage) {
             try {
-                _session.SubmitHomework(HomeworkManagerSession.Homework, (String) object);
+                _session.SubmitHomework((String) object);
                 managementPage.UpdateInfo();
             } catch (Exception exception) {
                 JOptionPane.showMessageDialog(null, exception.getMessage(), "错误", 0);
+            }
+        } else if (pageType == PageTypes.UserListPage) {
+            UserListPageEventArgs arg = (UserListPageEventArgs) object;
+
+            if (arg.getOperation() == Operations.AddUser) {
+                HomeworkManagerSession.Users.add(arg.getUser());
+                userListPage.UpdatePage();
+            } else {
+                try {
+                    _session = HomeworkManagerSession.CreateSession(arg.getUser(), loginedUser,
+                            HomeworkManagerSession.Homework);
+                    managementPage = new ManagementPage(_session, frame);
+                    managementPage.addPageListener(this);
+                } catch (Exception ex) {
+
+                }
             }
         }
     }

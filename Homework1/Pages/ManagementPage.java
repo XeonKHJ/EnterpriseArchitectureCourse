@@ -51,13 +51,13 @@ public class ManagementPage extends Page implements ActionListener {
 
             // set up the frame and display it
             frame.add(panel, BorderLayout.CENTER);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             frame.setSize(new DimensionUIResource(1024, 768));
             frame.setTitle("作业点评");
 
             homeworkTitleLabel.setText(session.Homework.getTitle());
             homeworkDescriptionLabel.setText(session.Homework.getDescription());
-
+            UpdateInfo();
             // frame.pack();
             frame.setVisible(true);
         }

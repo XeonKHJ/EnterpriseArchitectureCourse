@@ -6,6 +6,8 @@ import java.util.HashSet;
 public class Page {
     protected Collection<PageListener> _listeners = new HashSet<PageListener>();
 
+    protected PageTypes _pageTypes;
+
     protected void InvokePageEvent(PageTypes pageType, Object loginIdentity)
     {
         for (PageListener listener : _listeners) {
@@ -16,6 +18,10 @@ public class Page {
         }
     }
 
+    public PageTypes getPageType()
+    {
+        return _pageTypes;
+    }
     public void addPageListener(PageListener listener)
     {
         _listeners.add(listener);

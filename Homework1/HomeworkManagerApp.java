@@ -11,9 +11,9 @@ class HomeworkManagerApp
         // Initiate first user
         User firstAdminUser = new User(0, Roles.Admin, "admin", "admin");
         User firstTeacherUser = new User(1, Roles.Teacher, "teacher1", "teacher");
-        User secondTeacherUser = new User(1, Roles.Teacher, "teacher2", "teacher");
-        User firstStudentUser = new User(2, Roles.Student, "student1", "student");
-        User secondStudentUser = new User(2, Roles.Student, "student1", "student");
+        User secondTeacherUser = new User(2, Roles.Teacher, "teacher2", "teacher");
+        User firstStudentUser = new User(3, Roles.Student, "student1", "student");
+        User secondStudentUser = new User(4, Roles.Student, "student2", "student");
         HomeworkManagerSession.Users.add(firstAdminUser);
         HomeworkManagerSession.Users.add(firstTeacherUser);
         HomeworkManagerSession.Users.add(firstStudentUser);

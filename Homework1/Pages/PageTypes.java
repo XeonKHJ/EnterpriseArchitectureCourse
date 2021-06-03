@@ -5,5 +5,6 @@ public enum PageTypes {
     ManagementPage,
     CommentPage,
     ScorePage,
-    SubmitPage
+    SubmitPage,
+    UserListPage
 }
