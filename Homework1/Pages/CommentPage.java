@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.plaf.DimensionUIResource;
 
 import Classes.Homework;
+import Classes.HomeworkResult;
 
 import java.awt.event.*;
 
@@ -15,7 +16,7 @@ public class CommentPage extends Page implements ActionListener {
     private JTextArea _contentArea;
     private JButton _saveButton;
     private JFrame _frame;
-    public CommentPage(JFrame frame, Homework homework) {
+    public CommentPage(JFrame frame, HomeworkResult homeworkResult) {
         // JFrame portalFrame = new JFrame();
         _frame = frame;
         frame.getContentPane().removeAll();
@@ -27,7 +28,7 @@ public class CommentPage extends Page implements ActionListener {
         panel.setLayout(layout);
         _contentArea = new JTextArea();
         _contentArea.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        _contentArea.setText(homework.getContent());
+        _contentArea.setText(homeworkResult.getContent());
         _contentArea.setEditable(false);
         panel.add(_contentArea);
         _commentArea = new JTextArea();

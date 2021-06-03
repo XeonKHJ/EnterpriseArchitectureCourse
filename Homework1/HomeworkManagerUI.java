@@ -2,6 +2,7 @@ import javax.swing.*;
 
 import Classes.LoginIdentity;
 import Enums.Operations;
+import Enums.Roles;
 import Classes.AuthorityMatrix;
 import Classes.HomeworkManagerSession;
 import Pages.*;
@@ -26,9 +27,18 @@ public class HomeworkManagerUI implements PageListener {
                 try {
                     _session = HomeworkManagerSession.CreateSession(identity);
                     if (_session != null) {
-                        managementPage = new ManagementPage(_session, HomeworkManagerSession.Homework, frame);
-                        managementPage.addPageListener(this);
+                        if(_session.getUser().getRole() == Roles.Admin)
+                        {
+                            UserListPage userListPage = new UserListPage(frame);
+                        }
+                        else{
+                            managementPage = new ManagementPage(_session, frame);
+                            managementPage.addPageListener(this);
+                        }
+
                     }
+
+
                 } catch (Exception exception) {
 
                 }
@@ -38,7 +48,7 @@ public class HomeworkManagerUI implements PageListener {
                 Operations op = (Operations) object;
                 if (AuthorityMatrix.IsOperationLegal(_session.getUser().getRole(), op)) {
                     if (op == Operations.CommentHomwork) {
-                        CommentPage page = new CommentPage(new JFrame(), _session.Homework);
+                        CommentPage page = new CommentPage(new JFrame(), _session.getHomeworkResult());
                         page.addPageListener(this);
                     } else if (op == Operations.SubmitHomework) {
                         SubmitPage page = new SubmitPage(new JFrame());

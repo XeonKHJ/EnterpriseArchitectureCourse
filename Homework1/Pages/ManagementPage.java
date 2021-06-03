@@ -17,11 +17,11 @@ public class ManagementPage extends Page implements ActionListener {
     private JButton scoreButton = new JButton("成绩统计");
     private JLabel commentLabel = new JLabel("作业点评：");
     private JLabel scoreLabel = new JLabel("作业成绩：");
-    private Homework _homework;
+    private HomeworkManagerSession _session;
 
-    public ManagementPage(HomeworkManagerSession session, Homework homework, JFrame frame) {
+    public ManagementPage(HomeworkManagerSession session, JFrame frame) {
         // JFrame portalFrame = new JFrame();
-        _homework = homework;
+        _session = session;
         frame.getContentPane().removeAll();
         if (session != null) {
             JPanel panel = new JPanel();
@@ -55,31 +55,26 @@ public class ManagementPage extends Page implements ActionListener {
             frame.setSize(new DimensionUIResource(1024, 768));
             frame.setTitle("作业点评");
 
-            if (_homework != null) {
-                homeworkTitleLabel.setText(_homework.getTitle());
-                homeworkDescriptionLabel.setText(_homework.getDescription());
-            }
+            homeworkTitleLabel.setText(session.Homework.getTitle());
+            homeworkDescriptionLabel.setText(session.Homework.getDescription());
+
             // frame.pack();
             frame.setVisible(true);
         }
     }
 
-    public void UpdateInfo()
-    {
-        commentLabel.setText(_homework.getComment());
+    public void UpdateInfo() {
+        commentLabel.setText(_session.getHomeworkResult().getComment());
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         var source = e.getSource();
         if (source == commentButton) {
             InvokePageEvent(PageTypes.ManagementPage, Operations.CommentHomwork);
-        }
-        else if(source == submitButton)
-        {
+        } else if (source == submitButton) {
             InvokePageEvent(PageTypes.ManagementPage, Operations.SubmitHomework);
-        }
-        else if(source == scoreButton)
-        {
+        } else if (source == scoreButton) {
             InvokePageEvent(PageTypes.ManagementPage, Operations.ScoreHomework);
         }
     }

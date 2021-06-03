@@ -8,10 +8,13 @@ import Enums.Operations;
 public class HomeworkManagerSession {
     public static List<User> Users = new ArrayList<User>();
     public static Homework Homework;
+
+    private HomeworkResult _homeworkResult;
     private User _user;
 
     private HomeworkManagerSession(User user) {
         _user = user;
+        _homeworkResult = new HomeworkResult(user, Homework);
     }
 
     public static HomeworkManagerSession CreateSession(LoginIdentity identity) throws Exception {
@@ -43,7 +46,7 @@ public class HomeworkManagerSession {
     {
         if(AuthorityMatrix.IsOperationLegal(_user.getRole(), Operations.SubmitHomework))
         {
-            homework.setContent(content);
+            _homeworkResult.setContent(content);
         }
         else
         {
@@ -55,11 +58,16 @@ public class HomeworkManagerSession {
     {
         if(AuthorityMatrix.IsOperationLegal(_user.getRole(), Operations.CommentHomwork))
         {
-            homework.setComment(comment);
+            _homeworkResult.setComment(comment);
         }
         else
         {
             throw new Exception("不允许");
         }
+    }
+
+    public HomeworkResult getHomeworkResult()
+    {
+        return _homeworkResult;
     }
 }

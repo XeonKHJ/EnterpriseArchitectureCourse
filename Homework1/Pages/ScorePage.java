@@ -6,7 +6,7 @@ import java.awt.event.*;
 
 import java.awt.*;
 
-public class ScorePage extends Page implements ActionListener {
+public class ScorePage extends Page{
     private JFrame _frame;
     private JButton _saveButton;
     private JTextArea _textArea;
@@ -29,11 +29,5 @@ public class ScorePage extends Page implements ActionListener {
         frame.setTitle("提交作业");
         // frame.pack();
         frame.setVisible(true);
-    }
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        String comment = _textArea.getText();
-        InvokePageEvent(PageTypes.ScorePage, comment);
-        _frame.dispatchEvent(new WindowEvent(_frame, WindowEvent.WINDOW_CLOSING));
     }
 }
