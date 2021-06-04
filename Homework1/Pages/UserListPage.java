@@ -43,7 +43,7 @@ public class UserListPage extends Page implements ActionListener {
             addStudentPanel.add(roleArea);
             extraPanel.add(addStudentPanel);
             
-            _addStudentButton = new JButton("添加学生");
+            _addStudentButton = new JButton("添加用户");
             _addStudentButton.addActionListener(this);
             //_addStudentButton.setSize(new DimensionUIResource(40, 20));
             addStudentPanel.add(_addStudentButton);

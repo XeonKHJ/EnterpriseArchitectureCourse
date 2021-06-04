@@ -65,6 +65,7 @@ public class ManagementPage extends Page implements ActionListener {
 
     public void UpdateInfo() {
         commentLabel.setText(_session.getHomeworkResult().getComment());
+        scoreLabel.setText(Integer.toString(_session.getHomeworkResult().getScore()) );
     }
 
     @Override

@@ -1,6 +1,7 @@
 package Pages;
 
 import javax.swing.*;
+import javax.swing.plaf.DimensionUIResource;
 
 import Classes.LoginIdentity;
 
@@ -12,22 +13,22 @@ import java.util.HashSet;
 public class LoginPage extends Page implements ActionListener 
 {
     private int clicks = 0;
-    private JLabel label = new JLabel("Number of clicks:  0     ");
-    private JTextArea userNameTextArea = new JTextArea();
+    //private JLabel label = new JLabel("Number of clicks:  0     ");
+    private JTextField userNameTextArea = new JTextField();
     private JPasswordField passwordArea = new JPasswordField();
     JButton loginButton = new JButton("Login");
     public LoginPage(JFrame frame)
     {
         frame.getContentPane().removeAll();
-        JButton button = new JButton("Click Me");
-        button.addActionListener(this);
+        //JButton button = new JButton("Click Me");
+        //button.addActionListener(this);
         loginButton.addActionListener(this);
         // the panel with the button and text
         JPanel panel = new JPanel();
         panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 30));
         panel.setLayout(new GridLayout(0, 1));
-        panel.add(button);
-        panel.add(label);
+       // panel.add(button);
+        //panel.add(label);
         panel.add(new JLabel("用户名："));
         panel.add(userNameTextArea);
         panel.add(new JLabel("密码："));
@@ -36,8 +37,9 @@ public class LoginPage extends Page implements ActionListener
         // set up the frame and display it
         frame.add(panel, BorderLayout.CENTER);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setTitle("GUI");
-        frame.pack();
+        frame.setTitle("改作业系统");
+        //frame.pack();
+        frame.setSize(new DimensionUIResource(500, 500));
         frame.setVisible(true);
     }
 
@@ -48,7 +50,7 @@ public class LoginPage extends Page implements ActionListener
         if(source == loginButton)
         {
             clicks++;
-            label.setText("Number of clicks:  " + clicks);
+            //label.setText("Number of clicks:  " + clicks);
             var username = userNameTextArea.getText();
             var password = passwordArea.getPassword();
             var identity = new LoginIdentity(username, password);
@@ -57,7 +59,7 @@ public class LoginPage extends Page implements ActionListener
         else
         {
             clicks++;
-            label.setText("Number of clicks:  " + clicks);
+            //label.setText("Number of clicks:  " + clicks);
         }
     }
 
